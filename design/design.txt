@@ -1,0 +1,32 @@
+design.txt
+Inventory 112
+agotsis
+################################################################################
+Problem
+————————————————————
+Inventory112 was created to help solve ABTech’s problem of owning a lot of equipment across different rooms, and not being able to account for everything. There are a lot of valuable, and sometimes small and valuable items. Who do you talk to if something went missing? Who had it last? (etc.) I believed that this problem could be solved, and Inventory 112 is my attempt to solve the problem. Discussion about implementing a system similar to this one has gone on for awhile, and I think that making this prototype is a step in the right direction.
+
+Class Design
+————————————————————
+Barcode 39
+——————————
+The Barcode39 class was created from scratch, and implemented to match the Barcode39 specifications found online. In order to do so, a value is passed in when a Barcode30 object is created. A Code 39 barcode begins with a start/stop encoding, the the values, and then ends with the same start/stop encoding. Space characters are placed between each digit. Using this encoding, defined at the top of the Barcode39 class, a binary representation of of the barcode is created. The PILWrite function constructs the barcode with rectangles of appropriate width from the binary representation, and adds the label text below. The barcode is written to the given file location, which may be passed into the function.
+
+SQLite3 Database
+————————————————
+The DatabaseTest class I created acts as a layer between my project and a database. Creating an instance of a DB object ensures that a database of the given name is created. Other functions manage tables and add to the database. There are a generic update, get, and delete methods, for issuing database commands from outside of the DB class. Statements that may fail are in try/except statements, and an error would be printed.
+
+In my implementation, there are two tables, a table of items and a table of users. The items table has 4 fields, an ID as a primary key (which is also the Barcode ID for that item), a text name, text location, an an integer field “checkedOut” which is either a foreign key referencing an integer primary key in the users database, or 0, indicating that the item is not checked out. The users table has the integer primary key, and a text field for an Andrew ID.
+
+The database and its tables are easily expandable.
+
+
+RFID Lookup
+———————————
+RFID lookup functions by passing the serial number of the card to the CMU Card Services. This was set up with the help of someone I know who works at Computing Services. They kindly allowed me access to a limited lookup for the purpose of this project. This part of the project will not function on another computer without authentication. A URL is fetched, with the serial number as a parameter, and a page with a JSON representation of the user is returned. The JSON is converted to a dictionary, and the key “andrewid” is checked for the Andrew ID. There is test case in the file RFIDTest.py.
+
+User Interface
+————————————————————
+My user interface was designed above all to be self documenting, simple, and useable by anyone with minimal introduction. I made sure to make all error messages descriptive and helpful. I drew attention to the entry boxes by increasing the width of the lines surrounding them. I highlighted the check in and check out buttons when those options were available. I included a logo for looks.
+
+The interface is visually divided into two distinct zones, with the control buttons and the cart/item entry area.
